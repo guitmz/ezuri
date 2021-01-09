@@ -1,5 +1,6 @@
 # Ezuri
-A Simple Linux ELF Runtime Crypter. Be responsible with this code, it’s for educational purposes only!
+A Simple Linux ELF Runtime Crypter.
+An unpacker by [f0wl](https://github.com/f0wl) can be found at https://github.com/f0wl/ezuri_unpack.
 
 # Usage
 Clone this repo, build with `go build -o ezuri .` and run `./ezuri` executable.
