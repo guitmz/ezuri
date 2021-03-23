@@ -8,3 +8,5 @@ Clone this repo, build with `go build -o ezuri .` and run `./ezuri` executable.
 # References
 - https://www.guitmz.com/running-elf-from-memory/
 - https://github.com/guitmz/memrun
+- https://cybersecurity.att.com/blogs/labs-research/malware-using-new-ezuri-memory-loader
+- https://www.bleepingcomputer.com/news/security/linux-malware-authors-use-ezuri-golang-crypter-for-zero-detection/
