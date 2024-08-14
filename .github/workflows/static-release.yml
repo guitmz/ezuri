@@ -9,6 +9,9 @@ on:
 #  pull_request:
 #    branches: [ "master" ]
 
+env:
+  TAG: v0.0.1
+
 jobs:
 
   build:
@@ -23,13 +26,17 @@ jobs:
 
     - name: Build
       run: |
+        export GOOS=linux
         go mod init ezuri
         go mod tidy
-        go build -o ezuri
+        go build -o ezuri-linux-x86_64
+        GOARCH=arm64 go build -o ezuri-linux-aarch64
 
     - name: Upload to release
       uses: svenstaro/upload-release-action@v2
       with:
-        file: ezuri
+        file: ezuri-linux-*
         overwrite: true
+        file_glob: true
+        tag: ${{ env.TAG }}
 
