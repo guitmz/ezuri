@@ -1,42 +1,30 @@
-# This workflow will build a golang project
-# For more information see: https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-go
-
-name: Go
+name: Release
 
 on:
   push:
-    branches: [ "master" ]
-#  pull_request:
-#    branches: [ "master" ]
-
-env:
-  TAG: v0.0.1
+    tags:
+      - "*"
+permissions:
+  contents: write
 
 jobs:
-
-  build:
+  goreleaser:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v4
-
-    - name: Set up Go
-      uses: actions/setup-go@v4
-      with:
-        go-version: '1.20'
-
-    - name: Build
-      run: |
-        export GOOS=linux
-        go mod init ezuri
-        go mod tidy
-        go build -o ezuri-linux-x86_64
-        GOARCH=arm64 go build -o ezuri-linux-aarch64
-
-    - name: Upload to release
-      uses: svenstaro/upload-release-action@v2
-      with:
-        file: ezuri-linux-*
-        overwrite: true
-        file_glob: true
-        tag: ${{ env.TAG }}
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Set up Go
+        uses: actions/setup-go@v5
+      - name: Run GoReleaser
+        uses: goreleaser/goreleaser-action@v6
+        with:
+          distribution: goreleaser
+          version: "latest"
+          args: release --clean --single-target
+        env:
+          GOOS: linux
+          GOARCH: amd64
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
