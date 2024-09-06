@@ -1,30 +1,21 @@
 name: Release
 
 on:
-  push:
-    tags:
-      - "*"
+  release:
+    types: [created]
+
 permissions:
-  contents: write
+    contents: write
+    packages: write
 
 jobs:
-  goreleaser:
+  release-linux-amd64:
+    name: release linux/amd64
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
-      - name: Set up Go
-        uses: actions/setup-go@v5
-      - name: Run GoReleaser
-        uses: goreleaser/goreleaser-action@v6
-        with:
-          distribution: goreleaser
-          version: "latest"
-          args: release --clean --single-target
-        env:
-          GOOS: linux
-          GOARCH: amd64
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
+    - uses: actions/checkout@v4
+    - uses: wangyoucao577/go-release-action@v1
+      with:
+        github_token: ${{ secrets.GITHUB_TOKEN }}
+        goos: linux
+        goarch: amd64
