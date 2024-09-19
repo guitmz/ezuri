@@ -4,7 +4,7 @@ An unpacker by [f0wl](https://github.com/f0wl) can be found at [f0wl/ezuri_unpac
 
 # Download
 ```shell
-curl -SsfL -o ezuri https://github.com/guitmz/ezuri/releases/latest/download/ezuri
+curl -SsfL https://github.com/guitmz/ezuri/releases/latest/download/ezuri-v0.0.1-linux-amd64.tar.gz | tar xfvz -
 ```
 
 # Compile from source:
