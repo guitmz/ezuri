@@ -40,11 +40,11 @@ var (
 	check(err)
 	tmpl.Execute(f, stubCfg)
 	os.Chdir(stubDir)
-	cmdOut, err := exec.Command("go", "build", ".").Output()
-	check(err)
+	cmdOut, err := exec.Command("go", "build", "-ldflags", `-w -s`, ".").CombinedOutput()
 	if len(cmdOut) > 0 {
-		fmt.Println(string(cmdOut))
+		fmt.Println("Output: ", string(cmdOut))
 	}
+	check(err)
 	stubBytes, err := ioutil.ReadFile("stub")
 	check(err)
 	os.Chdir("..")
